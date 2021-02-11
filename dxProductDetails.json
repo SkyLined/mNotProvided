@@ -1,4 +1,6 @@
 {
+  "asProductTypes": ["Python module"],
+  "sPythonModuleName": "mNotProvided",
   "asDependentOnProductNames": [], 
   "asOptionalProductNames": [], 
   "oProductVersion": "2021-01-29 11:48", 
