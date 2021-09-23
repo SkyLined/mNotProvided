@@ -1,4 +1,7 @@
 {
+  "a0sDebugAdditionalProductNames": [
+    "mDebugOutput"
+  ],
   "asProductTypes": [
     "Python module"
   ],
