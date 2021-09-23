@@ -6,12 +6,12 @@
 # Example use:
 
 # from mOptional import *;
-# def fPrintVariableIfProvided(xzOptionalArgument = zNotProvided):
+# def fOutputVariableIfProvided(xzOptionalArgument = zNotProvided):
 #   if fbIsProvided(xzOptionalArgument):
 #     print repr(xzOptionalArgument);
 #
-# fPrintVariableIfProvided();     # does not print anything;
-# fPrintVariableIfProvided(None); # prints "None";
+# fOutputVariableIfProvided();     # does not print anything;
+# fOutputVariableIfProvided(None); # prints "None";
 
 from .zNotProvided import zNotProvided;
 from .fAssertType import fAssertType;
