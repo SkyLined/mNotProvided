@@ -1,19 +1,13 @@
-try: # mDebugOutput use is Optional
-  from mDebugOutput import HideInCallStack;
-  import mDebugOutput;
-except ModuleNotFoundError as oException:
-  if oException.args[0] != "No module named 'mDebugOutput'":
-    raise;
-  HideInCallStack = lambda x: x;
-
 from .zNotProvided import zNotProvided;
 
 gbDebugOutput = False;
 
-# We want any exceptions triggered in this function to be shown as coming from
-# the function that called it, hence we hide it in the call stack
-@HideInCallStack
 def fAssertType(sName, xValue, *txTypes):
+  # This function checks the type of a variable on behalf of its caller and throws a descriptive exception if the
+  # variable is of an incorrect type. Ideally, we would do this inline in the caller function and throw the exception
+  # from there, but Python does not allow us to easily do that. So we hide this function in the stack in mDebugOutput:
+  # This causes the exception throw from this function if the variable type is invalid to appear as if it was thrown
+  __mDebugOutput_HideInCallStack = True; # from the function calling this function.
   def fbIsOfType(xValue, *txTypes):
     for xType in txTypes:
       if xType is None:
