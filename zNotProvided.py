@@ -7,6 +7,7 @@ import __main__;
 if not hasattr(__main__, "__zNotProvided"):
   class czNotProvided(object):
     def __bool__(oSelf):
+      mDebugOutput_HideInCallStack = 1; # This function should not show up on the stack.
       # fbIsProvided() should be called to check if a value is provided.
       # example of bad code:
       #   not x;
@@ -15,6 +16,7 @@ if not hasattr(__main__, "__zNotProvided"):
       # The latter will throw the below assertion:
       raise AssertionError("You should not directly use this optional value as a boolean!");
     def __cmp__(oSelf):
+      mDebugOutput_HideInCallStack = 1; # This function should not show up on the stack.
       # fbIsProvided() should be called to check if a value is provided.
       # example bad code:
       #   x is zNotProvided;
