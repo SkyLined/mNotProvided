@@ -19,8 +19,25 @@ def fAssertType(sName, xValue, *txTypes):
           return True;
         if gbDebugOutput: print("value %s is not zNotProvided" % (repr(xValue),));
       elif isinstance(xType, tuple):
-        # tuple => must be any of the types in the tuple.
-        return fbIsOfType(xValue, *xType);
+        # Every element of the tuple must be of the correct type
+        if isinstance(xValue, tuple):
+          if len(xValue) > len(xType):
+            if gbDebugOutput: print("tuple has %d superfluous elements" % (len(xValue) - len(xType),));
+          elif len(xType) > len(xValue):
+            if gbDebugOutput: print("tuple is missing %d elements" % (len(xType) - len(xValue),));
+          else:
+            for uIndex in range(len(xType)):
+              xElement = xValue[uIndex];
+              xElementType = xType[uIndex];
+              if not fbIsOfType(xElement, xElementType):
+                if gbDebugOutput: print("tuple element %d (%s) is not %s" % (
+                  uIndex, 
+                  repr(xElement),
+                  fsCombineList(fasGetTypeDescriptions(xElementType)),
+                ));
+                break;
+            else:
+              return True;
       elif isinstance(xType, list):
         # Every element of the list must be any of the types provided in the list
         if isinstance(xValue, list):
@@ -31,6 +48,7 @@ def fAssertType(sName, xValue, *txTypes):
               break;
           else:
             return True;
+        if gbDebugOutput: print("value %s is not a list" % (repr(xValue),));
       elif isinstance(xType, dict):
         # Every key+value pair of the dict must be of the key+value types provided in the dict
         if isinstance(xValue, dict):
@@ -44,12 +62,16 @@ def fAssertType(sName, xValue, *txTypes):
             else:
               return True;
             if gbDebugOutput: print("dict element %s:%s is not %s" % (repr(xKey), repr(xValue), fsCombineList(fasGetTypeDescriptions(dxKeyAndValueTypes))));
+        if gbDebugOutput: print("value %s is not a dict" % (repr(xValue),));
       else:
         try:
           if isinstance(xValue, xType):
             return True;
         except TypeError as oException:
-          if oException.args[0] == "isinstance() arg 2 must be a type or tuple of types":
+          if oException.args[0] in (
+            "isinstance() arg 2 must be a type or tuple of types",
+            "isinstance() arg 2 must be a type, a tuple of types, or a union",
+          ):
             raise AssertionError("fAssertType was called with %s as a possible type, but it is not a valid type" % repr(xType));
           raise;
         if gbDebugOutput: print("value %s is not %s" % (repr(xValue), fsCombineList(fasGetTypeDescriptions(xType))));
