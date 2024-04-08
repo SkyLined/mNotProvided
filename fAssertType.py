@@ -95,8 +95,8 @@ def fAssertType(sName, xValue, *txTypes):
         asKeyValueTypes = [];
         for (xKeyTypes, xValueTypes) in xType.items():
           asKeyValueTypes.append("%s: %s" % (
-            fsCombineList(fasGetTypeDescriptions(*xKeyTypes)),
-            fsCombineList(fasGetTypeDescriptions(*xValueTypes)),
+            fsCombineList(fasGetTypeDescriptions(xKeyTypes)),
+            fsCombineList(fasGetTypeDescriptions(xValueTypes)),
           ));
         asTypes.append("{%s}" % fsCombineList(asKeyValueTypes));
       elif id(xType) == id(zNotProvided):
